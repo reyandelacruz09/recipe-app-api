@@ -8,13 +8,13 @@ from django.contrib.auth.models import (
     PermissionsMixin
 )
 
-class UserManger(BaseUserManager):
+class UserManager(BaseUserManager):
     """Manager for users."""
     def create_user(self, email, password=None, **extra_fields):
         """Create, save and return a new user."""
 
         if not email:
-            raise ValueError('User must have an address')
+            raise ValueError('User must have an email address.')
 
         user = self.model(email=self.normalize_email(email), **extra_fields)
         user.set_password(password)
@@ -39,6 +39,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
-    objects = UserManger()
+    objects = UserManager()
 
     USERNAME_FIELD = 'email'
