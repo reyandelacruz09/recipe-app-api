@@ -12,7 +12,7 @@ from core.models import Recipe
 
 from recipe.serializers import (
     RecipeSerializer,
-    RecipeDetailSerializer
+    RecipeDetailSerializer,
 )
 
 RECIPES_URL = reverse('recipe:recipe-list')
@@ -26,7 +26,7 @@ def create_recipe(user, **params):
     """Create and return a sample recipe"""
 
     defaults = {
-        'title': "Sample recipe title",
+        'title': 'Sample recipe title',
         'time_minutes': 22,
         'price': Decimal('5.25'),
         'description': 'Sample description',
@@ -183,18 +183,18 @@ class PrivateRecipeApiTests(TestCase):
         res = self.client.delete(url)
 
         self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertFalse(Recipe.objects.filter(id=recipe.id).exist())
+        self.assertFalse(Recipe.objects.filter(id=recipe.id).exists())
 
     def test_recipe_other_users_recipe_error(self):
         """Test trying to delete another user recipe gives error."""
-        new_user = create_user(email='user2@example', password='test123')
+        new_user = create_user(email='user2@example.com', password='test123')
         recipe = create_recipe(user=new_user)
 
         url = detail_url(recipe.id)
         res = self.client.delete(url)
 
         self.assertEqual(res.status_code, status.HTTP_404_NOT_FOUND)
-        self.assertTrue(Recipe.objecs.filter(id=recipe.id).exist())
+        self.assertTrue(Recipe.objects.filter(id=recipe.id).exists())
 
 
 
