@@ -11,7 +11,7 @@ from recipe import serializers
 class RecipeViewSet(viewsets.ModelViewSet):
     """View for manage recipe APIs."""
 
-    serializer_class = serializers.RecipeSerializer
+    serializer_class = serializers.RecipeDetailSerializer
     queryset = Recipe.objects.all()
 
     authentication_classes = [TokenAuthentication]
@@ -44,7 +44,7 @@ class TagViewSet(mixins.DestroyModelMixin,
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def get_query_set(self):
+    def get_queryset(self):
         """filter queryset to authenticated user."""
         return self.queryset.filter(user=self.request.user).order_by('-name')
 
