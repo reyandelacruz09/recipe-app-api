@@ -25,7 +25,7 @@ def create_user(email='user@example.com', password='testpass123'):
 class PublicIngredientsApiTests(TestCase):
     """Test unaunthenticated API request."""
 
-    def setUp(self) -> None:
+    def setUp(self):
 
         def setUp(self):
             self.client = APIClient()
@@ -36,7 +36,7 @@ class PublicIngredientsApiTests(TestCase):
 
             self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
 
-class PrivateIngredientsApiTest(TestCase):
+class PrivateIngredientsApiTests(TestCase):
     """Test unauthenticated API requests."""
 
     def setUp(self):
@@ -51,7 +51,7 @@ class PrivateIngredientsApiTest(TestCase):
 
         res = self.client.get(INGREDIENTS_URL)
 
-        ingredients = Ingredient.ojbects.all().order_by('-name')
+        ingredients = Ingredient.objects.all().order_by('-name')
         serializer = IngredientSerializer(ingredients, many=True)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, serializer.data)
@@ -81,7 +81,13 @@ class PrivateIngredientsApiTest(TestCase):
         ingredient.refresh_from_db()
         self.assertEqual(ingredient.name, payload['name'])
 
+    def test_delete_ingredient(self):
+        """Test deleting an ingredient"""
+        ingredient = Ingredient.objects.create(user=self.user, name='Lettuce')
 
+        url = detail_url(ingredient.id)
+        res = self.client.delete(url)
 
-
-
+        self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
+        ingredients = Ingredient.objects.filter(user=self.user)
+        self.assertFalse(ingredients.exists())
