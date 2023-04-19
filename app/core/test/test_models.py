@@ -61,10 +61,10 @@ class ModelTests(TestCase):
         )
         recipe = models.Recipe.objects.create(
             user=user,
-            title="Sample recipe name",
+            title='Sample recipe name',
             time_minutes=5,
             price=Decimal('5.50'),
-            description="Sample recipe description",
+            description='Sample recipe description',
         )
         self.assertEqual(str(recipe), recipe.title)
 
@@ -93,6 +93,6 @@ class ModelTests(TestCase):
         mock_uuid.return_value = uuid
         file_path = models.recipe_image_file_path(None, 'example.jpg')
 
-        self.assertEqual(file_path, f'upload/recipe/{uuid}.jpg')
+        self.assertEqual(file_path, f'uploads/recipe/{uuid}.jpg')
 
 

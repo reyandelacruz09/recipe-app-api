@@ -15,7 +15,7 @@ from rest_framework.test import APIClient
 from core.models import (
     Recipe,
     Tag,
-    Ingredient
+    Ingredient,
 )
 
 from recipe.serializers import (
@@ -32,7 +32,7 @@ def detail_url(recipe_id):
 
 def image_upload_url(recipe_id):
     """Create and return an image upload URL."""
-    return reverse('recipe:recipe-detail', args=[recipe_id])
+    return reverse('recipe:recipe-upload-image', args=[recipe_id])
 
 def create_recipe(user, **params):
     """Create and return a sample recipe"""
@@ -381,12 +381,12 @@ class PrivateRecipeApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(recipe.ingredients.count(), 0)
 
-class ImageUpload(TestCase):
+class ImageUploadTest(TestCase):
     """Tests for the iamge upload API."""
     def setUp(self):
         self.client = APIClient()
         self.user = get_user_model().objects.create_user(
-            'user@example.com'
+            'user@example.com',
             'password123',
         )
         self.client.force_authenticate(self.user)
@@ -413,7 +413,7 @@ class ImageUpload(TestCase):
     def test_upload_image_bad_request(self):
         """Test uploading invalid image."""
         url = image_upload_url(self.recipe.id)
-        payload = {'iamge': 'ntanimage'}
+        payload = {'image': 'notanimage'}
         res = self.client.post(url, payload, format='multipart')
 
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
