@@ -12,16 +12,16 @@ services:
       - DB_NAME=${DB_NAME}
       - DB_USER=${DB_USER}
       - DB_PASS=${DB_PASS}
-      - SECRET_KEY=${DJANGO_SECRECT_KEY}
+      - SECRET_KEY=${DJANGO_SECRET_KEY}
       - ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS}
     depends_on:
       - db
 
   db:
     image: postgres:13-alpine
-    retart: always
+    restart: always
     volumes:
-      - postgres-data:/var/lib/postgres/data
+      - postgres-data:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=${DB_NAME}
       - POSTGRES_USER=${DB_USER}
@@ -34,7 +34,7 @@ services:
     depends_on:
       - app
     ports:
-      - 8000:8000
+      - 80:8000
     volumes:
       - static-data:/vol/static
 
