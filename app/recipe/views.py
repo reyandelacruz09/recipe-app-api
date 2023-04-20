@@ -25,7 +25,7 @@ from recipe import serializers
         OpenApiParameter(
             'tags',
             OpenApiTypes.STR,
-            descrition='Comma seperated list of IDs to filter',
+            description='Comma seperated list of IDs to filter',
         ),
         OpenApiParameter(
             'ingredients',
@@ -50,13 +50,13 @@ class RecipeViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         """Retrieve recipes for authenticatd user."""
         tags = self.request.query_params.get('tags')
-        inggredients = self.request.query_params.get('ingredients')
+        ingredients = self.request.query_params.get('ingredients')
         queryset = self.queryset
         if tags:
             tag_ids = self._params_to_ints(tags)
-            queryset = queryset.filter(tag__id__in=tag_ids)
-        if inggredients:
-            ingredient_ids = self._params_to_ints(inggredients)
+            queryset = queryset.filter(tags__id__in=tag_ids)
+        if ingredients:
+            ingredient_ids = self._params_to_ints(ingredients)
             queryset = queryset.filter(ingredients__id__in=ingredient_ids)
 
         return queryset.filter(
