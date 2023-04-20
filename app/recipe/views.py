@@ -109,14 +109,16 @@ class BaseRecipeAttrViewSet(mixins.DestroyModelMixin,
 
     def get_queryset(self):
         """filter queryset to authenticated user."""
-        assinged_only = bool(
-            int(self.request.query_params.get('assinged_only', 0))
+        assiged_only = bool(
+            int(self.request.query_params.get('assigned_only', 0))
         )
-        query_set = self.get_queryset
-        if assinged_only:
-            query_set = query_set.filter(recipe__isnull=False)
+        queryset = self.queryset
+        if assiged_only:
+            queryset = queryset.filter(recipe__isnull=False)
 
-        return self.queryset.filter(user=self.request.user).order_by('-name').distinct()
+        return queryset.filter(
+            user=self.request.user
+        ).order_by('-name').distinct()
 
 class TagViewSet(BaseRecipeAttrViewSet):
     """Mange tags in the database."""
