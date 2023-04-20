@@ -22,16 +22,18 @@ from recipe import serializers
 
 @extend_schema_view(
     list=extend_schema(
-        OpenApiParameter(
-            'tags',
-            OpenApiTypes.STR,
-            description='Comma seperated list of IDs to filter',
-        ),
-        OpenApiParameter(
-            'ingredients',
-            OpenApiTypes.STR,
-            description='Comma seperated list of ingredient IDs to filter',
-        )
+        parameters= [
+            OpenApiParameter(
+                'tags',
+                OpenApiTypes.STR,
+                description='Comma seperated list of IDs to filter',
+            ),
+            OpenApiParameter(
+                'ingredients',
+                OpenApiTypes.STR,
+                description='Comma seperated list of ingredient IDs to filter',
+            ),
+        ]
     )
 )
 
@@ -95,7 +97,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
                 'assigned_only',
                 OpenApiTypes.INT, enum=[0, 1],
                 description='Filter by items assigned to recipes.',
-            )
+            ),
         ]
     )
 )
@@ -109,11 +111,11 @@ class BaseRecipeAttrViewSet(mixins.DestroyModelMixin,
 
     def get_queryset(self):
         """filter queryset to authenticated user."""
-        assiged_only = bool(
+        assigned_only = bool(
             int(self.request.query_params.get('assigned_only', 0))
         )
         queryset = self.queryset
-        if assiged_only:
+        if assigned_only:
             queryset = queryset.filter(recipe__isnull=False)
 
         return queryset.filter(
