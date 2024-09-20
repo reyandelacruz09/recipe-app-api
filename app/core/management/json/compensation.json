@@ -1,0 +1,38 @@
+[
+    {
+        "name": "Emergency Leave",
+        "type": 1
+    },
+    {
+        "name": "Sick Leave",
+        "type": 1
+    },
+    {
+        "name": "Vacation Leave",
+        "type": 1
+    },
+    {
+        "name": "Maternity Leave",
+        "type": 1
+    },
+    {
+        "name": "Bereavement Leave",
+        "type": 1
+    },
+    {
+        "name": "Regular",
+        "type": 2
+    },
+    {
+        "name": "Rest Day",
+        "type": 2
+    },
+    {
+        "name": "Regular Holiday",
+        "type": 2
+    },
+    {
+        "name": "Special Holiday",
+        "type": 2
+    }
+]

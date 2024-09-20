@@ -2,6 +2,7 @@ FROM python:3.9-alpine3.13
 LABEL maintainer="reyandelacruz09"
 
 ENV PYTHONUNBUFFERED 1
+
 COPY ./requirements.txt /tmp/requirements.txt
 COPY ./requirements.dev.txt /tmp/requirements.dev.txt
 COPY ./scripts /scripts
@@ -25,6 +26,7 @@ RUN python -m venv /py && \
         --disabled-password \
         --no-create-home \
         django-user && \
+
     mkdir -p /vol/web/media && \
     mkdir -p /vol/web/static && \
     chown -R django-user:django-user /vol && \
